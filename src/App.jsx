@@ -1,11 +1,15 @@
 import { useState } from 'react'
 
+const SYMBOLS = { '+': '+', '-': '−', '*': '×', '/': '÷' }
+
+
 function App() {
   const [a, setA] = useState('')
   const [b, setB] = useState('')
   const [operation, setOperation] = useState('+')
   const [result, setResult] = useState(null)
   const [error, setError] = useState('')
+  const [history, setHistory] = useState([])
 
   function calculate() {
     if (a === '' || b === '') {
@@ -31,6 +35,16 @@ function App() {
 
     setError('')
     setResult(answer)
+
+    const entry = {
+      id: Date.now(),
+      text: `${x} ${SYMBOLS[operation]} ${y} = ${answer}`,
+    }
+    setHistory([entry, ...history])
+  }
+
+  function clearHistory() {
+    setHistory([])
   }
 
   return (
@@ -57,6 +71,20 @@ function App() {
       <button onClick={calculate}>Calculate</button>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {result !== null && <h2>Result: {result}</h2>}
+
+      <h3>History</h3>
+      {history.length === 0 ? (
+        <p>No calculations yet.</p>
+      ) : (
+        <>
+          <ul>
+            {history.map(item => (
+              <li key={item.id}>{item.text}</li>
+            ))}
+          </ul>
+          <button onClick={clearHistory}>Clear history</button>
+        </>
+      )}
     </div>
   )
 }
