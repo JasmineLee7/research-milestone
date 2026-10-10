@@ -5,17 +5,31 @@ function App() {
   const [b, setB] = useState('')
   const [operation, setOperation] = useState('+')
   const [result, setResult] = useState(null)
+  const [error, setError] = useState('')
 
   function calculate() {
+    if (a === '' || b === '') {
+      setError('Please enter both numbers.')
+      setResult(null)
+      return
+    }
+
     const x = Number(a)
     const y = Number(b)
-    let answer
+    
+    if (operation === '/' && y === 0) {
+      setError('Cannot divide by zero.')
+      setResult(null)
+      return
+    }
 
+    let answer
     if (operation === '+') answer = x + y
     else if (operation === '-') answer = x - y
     else if (operation === '*') answer = x * y
     else if (operation === '/') answer = x / y
 
+    setError('')
     setResult(answer)
   }
 
@@ -41,6 +55,7 @@ function App() {
         placeholder="Second number"
       />
       <button onClick={calculate}>Calculate</button>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       {result !== null && <h2>Result: {result}</h2>}
     </div>
   )
