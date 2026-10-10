@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import './App.css'
 
 const SYMBOLS = { '+': '+', '-': '−', '*': '×', '/': '÷' }
 
@@ -48,43 +49,49 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="calculator">
       <h1>Calculator</h1>
-      <input
-        type="number"
-        value={a}
-        onChange={e => setA(e.target.value)}
-        placeholder="First number"
-      />
-      <select value={operation} onChange={e => setOperation(e.target.value)}>
-        <option value="+">+</option>
-        <option value="-">−</option>
-        <option value="*">×</option>
-        <option value="/">÷</option>
-      </select>
-      <input
-        type="number"
-        value={b}
-        onChange={e => setB(e.target.value)}
-        placeholder="Second number"
-      />
-      <button onClick={calculate}>Calculate</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {result !== null && <h2>Result: {result}</h2>}
 
-      <h3>History</h3>
-      {history.length === 0 ? (
-        <p>No calculations yet.</p>
-      ) : (
-        <>
-          <ul>
-            {history.map(item => (
-              <li key={item.id}>{item.text}</li>
-            ))}
-          </ul>
-          <button onClick={clearHistory}>Clear history</button>
-        </>
-      )}
+      <div className="inputs">
+        <input
+          type="number"
+          value={a}
+          onChange={e => setA(e.target.value)}
+          placeholder="First number"
+        />
+        <select value={operation} onChange={e => setOperation(e.target.value)}>
+          <option value="+">+</option>
+          <option value="-">−</option>
+          <option value="*">×</option>
+          <option value="/">÷</option>
+        </select>
+        <input
+          type="number"
+          value={b}
+          onChange={e => setB(e.target.value)}
+          placeholder="Second number"
+        />
+      </div>
+
+      <button className="calculate-btn" onClick={calculate}>Calculate</button>
+      {error && <p className="error">{error}</p>}
+      {result !== null && <h2 className="result">Result: {result}</h2>}
+
+      <div className="history">
+        <h3>History</h3>
+        {history.length === 0 ? (
+          <p>No calculations yet.</p>
+        ) : (
+          <>
+            <ul>
+              {history.map(item => (
+                <li key={item.id}>{item.text}</li>
+              ))}
+            </ul>
+            <button className="clear-btn" onClick={clearHistory}>Clear history</button>
+          </>
+        )}
+      </div>
     </div>
   )
 }
